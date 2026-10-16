@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Story Viewer</title>
+    <style>
+        body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; background-color: #f4f1e9; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        h1, h2 { color: #5d4037; }
+        .protagonists { color: #8d6e63; font-size: 1.1em; margin-bottom: 20px; }
+        #story-container { width: 90%; max-width: 800px; display: flex; flex-direction: column; gap: 40px; padding: 40px 0; }
+        .act { background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: 20px; text-align: center; }
+        .act img { max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 15px; }
+        .act .text { font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 5px; }
+        .act .pinyin { font-size: 1.1em; color: #777; font-style: italic; margin-bottom: 5px; }
+        .act .english { font-size: 1.2em; color: #555; }
+    </style>
+</head>
+<body>
+
+    <h1 id="story-title">Loading...</h1>
+    <h2 id="story-author"></h2>
+    <div id="story-protagonists" class="protagonists"></div>
+
+    <div id="story-container"></div>
+
+    <script>
+        // --- DATA SECTION: Paste your corrected data here ---
+        const storyData = {
+          "title": "臨江仙·滾滾長江東逝水",
+          "author": "楊慎 (Yang Shen)",
+          "protagonists": ["小牛犢 (Little Bull)", "魚翁 (Fisherman)", "樵夫 (Woodcutter)"],
+          "setting": "古代中國歷史長河 (Ancient Chinese History)",
+          "art_style": "傳統水墨與細緻人物工筆畫風 (Traditional Chinese Ink Wash with Fine Figure Painting)",
+          "acts": [
+            {
+              "sequence": 1,
+              "text": "滾滾長江東逝水",
+              "pinyin": "gǔn gǔn cháng jiāng dōng shì shuǐ",
+              "english": "The mighty Yangtze River rolls eastward into the sea.", // FIXED
+              "image": "Gemini_Generated_Image_01.jpg"
+            },
+            {
+              "sequence": 2,
+              "text": "浪花淘盡英雄",
+              "pinyin": "làng huā táo jìn yīng xióng",
+              "english": "Its roaring waves wash away all the heroes of the past.", // FIXED
+              "image": "Gemini_Generated_Image_02.jpg"
+            },
+            {
+              "sequence": 3,
+              "text": "是非成敗轉頭空",
+              "pinyin": "shì fēi chéng bài zhuǎn tóu kōng",
+              "english": "Right and wrong, success and failure, all turn to empty air in a flash.", // FIXED
+              "image": "Gemini_Generated_Image_03.jpg"
+            },
+            {
+              "sequence": 4,
+              "text": "青山依舊在",
+              "pinyin": "qīng shān yī jiù zài",
+              "english": "The green mountains remain as majestic as ever.", // FIXED
+              "image": "Gemini_Generated_Image_04.jpg"
+            },
+            {
+              "sequence": 5,
+              "text": "幾度夕陽紅",
+              "pinyin": "jǐ dù xī yáng hóng",
+              "english": "How many times has the sunset glowed red?", // FIXED
+              "image": "Gemini_Generated_Image_05.jpg"
+            },
+            {
+              "sequence": 6,
+              "text": "白髮漁樵江渚上",
+              "pinyin": "bái fà yú qiáo jiāng zhǔ shàng",
+              "english": "White-haired fishermen and woodcutters on the river islets.", // FIXED
+              "image": "Gemini_Generated_Image_06.jpg"
+            },
+            {
+              "sequence": 7,
+              "text": "慣看秋月春風",
+              "pinyin": "guàn kàn qiū yuè chūn fēng",
+              "english": "Accustomed to watching the autumn moons and spring breezes.", // FIXED
+              "image": "Gemini_Generated_Image_07.jpg"
+            },
+            {
+              "sequence": 8,
+              "text": "一壺濁酒喜相逢",
+              "pinyin": "yī hú zhuó jiǔ xǐ xiāng féng",
+              "english": "Happily meeting over a pot of turbid wine.", // FIXED
+              "image": "Gemini_Generated_Image_08.jpg"
+            },
+            {
+              "sequence": 9,
+              "text": "古今多少事",
+              "pinyin": "gǔ jīn duō shǎo shì",
+              "english": "How many affairs of ancient and modern times...", // FIXED
+              "image": "Gemini_Generated_Image_09.jpg"
+            },
+            {
+              "sequence": 10,
+              "text": "都付笑談中",
+              "pinyin": "dōu fù xiào tán zhōng",
+              "english": "Are all tossed into a hearty laugh and casual chat.", // FIXED
+              "image": "Gemini_Generated_Image_10.jpg"
+            }
+          ]
+        };
+        // --- END DATA SECTION ---
+
+        function renderStory(data) {
+            document.getElementById('story-title').innerText = data.title;
+            document.getElementById('story-author').innerText = data.author;
+            document.getElementById('story-protagonists').innerText = `Featuring: ${data.protagonists.join(', ')}`;
+
+            const container = document.getElementById('story-container');
+            data.acts.forEach(act => {
+                const actDiv = document.createElement('div');
+                actDiv.className = 'act';
+
+                const img = document.createElement('img');
+                img.src = act.image;
+                img.alt = act.text;
+
+                const textDiv = document.createElement('div');
+                textDiv.className = 'text';
+                textDiv.innerText = act.text;
+
+                const pinyinDiv = document.createElement('div');
+                pinyinDiv.className = 'pinyin';
+                pinyinDiv.innerText = act.pinyin;
+
+                const englishDiv = document.createElement('div');
+                englishDiv.className = 'english';
+                englishDiv.innerText = act.english;
+
+                actDiv.appendChild(img);
+                actDiv.appendChild(textDiv);
+                actDiv.appendChild(pinyinDiv);
+                actDiv.appendChild(englishDiv);
+
+                container.appendChild(actDiv);
+            });
+        }
+
+        renderStory(storyData);
+    </script>
+</body>
+</html>
